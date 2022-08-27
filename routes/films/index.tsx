@@ -6,5 +6,5 @@ export default function FilmsIndex() {
     <div>
       <p>This is the films page</p>
     </div>
-  )
+  );
 }
