@@ -19,7 +19,6 @@ export const handler: Handlers<FilmsIndex> = {
 
 export default function FilmsIndex({ data }: PageProps<FilmsIndex>) {
   const { films } = data;
-  console.log("films", films);
   return (
     <div>
       <p>This is the films page</p>
