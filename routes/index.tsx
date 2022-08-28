@@ -8,7 +8,6 @@ export default function Home() {
       <p class={tw`my-6`}>
         Welcome to The Godzilla Cineaste.
       </p>
-      <p>{Deno.env.get("SUPABASE_URL")}</p>
       <p>
         <a href="/films">Films</a>
       </p>
