@@ -23,7 +23,11 @@ export default function PeopleIndex({ data }: PageProps<PeopleIndex>) {
     <div>
       <p>This is the people page</p>
       <ul>
-        {people.map((p) => <li>{p.displayName}</li>)}
+        {people.map((p) => (
+          <li>
+            <a href={`/people/${p.slug}`}>{p.displayName}</a>
+          </li>
+        ))}
       </ul>
     </div>
   );

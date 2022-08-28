@@ -23,7 +23,11 @@ export default function FilmsIndex({ data }: PageProps<FilmsIndex>) {
     <div>
       <p>This is the films page</p>
       <ul>
-        {films.map((d) => <li>{d.title}</li>)}
+        {films.map((f) => (
+          <li>
+            <a href={`/films/${f.slug}`}>{f.title}</a>
+          </li>
+        ))}
       </ul>
     </div>
   );
