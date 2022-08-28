@@ -1,6 +1,7 @@
 /** @jsx h */
+import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { h } from "preact";
+import { Fragment, h } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
 import { Film } from "../../communication/types.ts";
 
@@ -20,15 +21,20 @@ export const handler: Handlers<FilmsIndex> = {
 export default function FilmsIndex({ data }: PageProps<FilmsIndex>) {
   const { films } = data;
   return (
-    <div>
-      <p>This is the films page</p>
-      <ul>
-        {films.map((f) => (
-          <li>
-            <a href={`/films/${f.slug}`}>{f.title}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Fragment>
+      <Head>
+        <title>Films | The Godzilla Cineaste</title>
+      </Head>
+      <div>
+        <p>This is the films page</p>
+        <ul>
+          {films.map((f) => (
+            <li>
+              <a href={`/films/${f.slug}`}>{f.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Fragment>
   );
 }
