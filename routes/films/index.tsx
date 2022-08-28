@@ -2,7 +2,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { h } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
-import { Film } from "../../communication/film.ts";
+import { Film } from "../../communication/types.ts";
 
 interface FilmsIndex {
   films: Film[];
@@ -11,8 +11,8 @@ interface FilmsIndex {
 export const handler: Handlers<FilmsIndex> = {
   async GET(_, ctx) {
     const { data } = await supabaseClient().from<Film>("Film").select(
-      "title",
-    );
+      "slug,title",
+    ).limit(10);
     return ctx.render({ films: data! });
   },
 };
