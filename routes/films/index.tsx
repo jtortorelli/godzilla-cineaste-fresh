@@ -13,7 +13,9 @@ export const handler: Handlers<FilmsIndex> = {
   async GET(_, ctx) {
     const { data } = await supabaseClient().from<Film>("Film").select(
       "slug,title",
-    ).limit(10);
+    )
+      .eq("showcased", true)
+      .eq("tenant", 1);
     return ctx.render({ films: data! });
   },
 };

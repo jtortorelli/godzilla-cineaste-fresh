@@ -13,7 +13,10 @@ export const handler: Handlers<PeopleIndex> = {
   async GET(_, ctx) {
     const { data } = await supabaseClient().from<Person>("Person").select(
       "displayName,slug",
-    ).limit(10);
+    )
+      .eq("showcased", true)
+      .eq("tenant", 1)
+      .order("sortName", { ascending: true });
     return ctx.render({ people: data! });
   },
 };
