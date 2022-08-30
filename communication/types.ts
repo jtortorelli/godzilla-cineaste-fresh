@@ -1,6 +1,7 @@
 export interface Film {
   releaseDate: Date;
   showcased: boolean;
+  sortTitle: string;
   slug: string;
   tenant: number;
   title: string;

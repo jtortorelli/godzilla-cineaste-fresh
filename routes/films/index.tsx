@@ -15,7 +15,8 @@ export const handler: Handlers<FilmsIndex> = {
       "slug,title",
     )
       .eq("showcased", true)
-      .eq("tenant", 1);
+      .eq("tenant", 1)
+      .order("sortTitle", { ascending: true });
     return ctx.render({ films: data! });
   },
 };
