@@ -7,6 +7,20 @@ export interface Film {
   title: string;
 }
 
+export interface FilmRoleCredit {
+  displayName: string;
+  showcased: boolean;
+  slug: string;
+  order: string;
+}
+
+export interface FilmRole {
+  role: string;
+  filmSlug: string;
+  order: string;
+  credits: FilmRoleCredit[];
+}
+
 export interface Person {
   displayName: string;
   showcased: boolean;

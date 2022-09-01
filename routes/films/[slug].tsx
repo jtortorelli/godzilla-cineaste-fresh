@@ -3,21 +3,34 @@ import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Fragment, h } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
-import { Film } from "../../communication/types.ts";
+import { Film, FilmRole } from "../../communication/types.ts";
 
 interface FilmPage {
   film: Film;
+  filmRoles: FilmRole[];
 }
 
 export const handler: Handlers<FilmPage> = {
   async GET(_, ctx) {
     const { slug } = ctx.params;
-    const { data } = await supabaseClient().from<Film>("Film").select(
-      "releaseDate,slug,title",
-    ).eq("slug", slug);
+    const sc = supabaseClient();
+
+    const { data } = await sc
+      .from<Film>("Film")
+      .select("releaseDate,slug,title")
+      .eq("slug", slug);
     const [film] = data!;
+
+    const { data: filmRolesData } = await sc
+      .from("FilmRoles")
+      .select("*")
+      .eq("filmSlug", slug);
+
+    console.log(filmRolesData);
+
     return ctx.render({
       film: { ...film, releaseDate: new Date(film.releaseDate) },
+      filmRoles: filmRolesData!,
     });
   },
 };
