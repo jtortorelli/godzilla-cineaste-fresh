@@ -15,18 +15,18 @@ export const handler: Handlers<FilmPage> = {
     const { slug } = ctx.params;
     const sc = supabaseClient();
 
-    const { data } = await sc
-      .from<Film>("Film")
-      .select("releaseDate,slug,title")
-      .eq("slug", slug);
-    const [film] = data!;
+    const [{ data: filmData }, { data: filmRolesData }] = await Promise.all([
+      sc
+        .from<Film>("Film")
+        .select("releaseDate,slug,title")
+        .eq("slug", slug),
+      sc
+        .from("FilmRoles")
+        .select("*")
+        .eq("filmSlug", slug),
+    ]);
 
-    const { data: filmRolesData } = await sc
-      .from("FilmRoles")
-      .select("*")
-      .eq("filmSlug", slug);
-
-    console.log(filmRolesData);
+    const [film] = filmData!;
 
     return ctx.render({
       film: { ...film, releaseDate: new Date(film.releaseDate) },
