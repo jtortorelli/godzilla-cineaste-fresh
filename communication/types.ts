@@ -28,3 +28,12 @@ export interface Person {
   sortName: string;
   tenant: number;
 }
+
+export interface FilmRole {
+  name: string;
+  filmSlug: string;
+  uncredited: boolean;
+  slug: string;
+  showcased: boolean;
+  displayName: string;
+}
