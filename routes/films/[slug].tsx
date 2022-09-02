@@ -3,11 +3,11 @@ import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Fragment, h } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
-import { Film, FilmRole } from "../../communication/types.ts";
+import { Film, FilmStaff } from "../../communication/types.ts";
 
 interface FilmPage {
   film: Film;
-  filmRoles: FilmRole[];
+  filmStaff: FilmStaff[];
 }
 
 export const handler: Handlers<FilmPage> = {
@@ -15,28 +15,28 @@ export const handler: Handlers<FilmPage> = {
     const { slug } = ctx.params;
     const sc = supabaseClient();
 
-    const [{ data: filmData }, { data: filmRolesData }] = await Promise.all([
+    const [{ data: filmData }, { data: filmStaffData }] = await Promise.all([
       sc
         .from<Film>("Film")
         .select("releaseDate,slug,title")
         .eq("slug", slug),
       sc
-        .from("FilmRoles")
+        .from("FilmStaff")
         .select("*")
         .eq("filmSlug", slug),
     ]);
 
-    const [film] = filmData!;
+    const film = (filmData ?? [])[0];
 
     return ctx.render({
       film: { ...film, releaseDate: new Date(film.releaseDate) },
-      filmRoles: filmRolesData!,
+      filmStaff: filmStaffData ?? [],
     });
   },
 };
 
 export default function FilmPage({ data }: PageProps<FilmPage>) {
-  const { film } = data;
+  const { film, filmStaff } = data;
   return (
     <Fragment>
       <Head>
@@ -46,6 +46,16 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         </title>
       </Head>
       <div>This is the page for Film with slug: {film.slug}</div>
+      <div>
+        <p>Staff</p>
+        <ul>
+          {filmStaff.map((staff) => (
+            <li>
+              {staff.role}: {staff.credits.map((c) => c.displayName).join(", ")}
+            </li>
+          ))}
+        </ul>
+      </div>
     </Fragment>
   );
 }
