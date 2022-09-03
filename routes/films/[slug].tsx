@@ -1,9 +1,10 @@
 /** @jsx h */
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { Fragment, h } from "preact";
+import { Fragment, h, PreactConsumer, VNode } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
 import { Film, FilmRole, FilmStaff } from "../../communication/types.ts";
+import { PeopleLink } from "../../components/PeopleLink.tsx";
 
 interface FilmPage {
   film: Film;
@@ -64,7 +65,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
               {filmStaff.map((staff) => (
                 <li>
                   {staff.role}:{" "}
-                  {staff.credits.map((c) => c.displayName).join(", ")}
+                  {staff.credits.map((credit) => <PeopleLink {...credit} />)}
                 </li>
               ))}
             </ul>
@@ -76,7 +77,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           <ul>
             {filmRoles.map((role) => (
               <li>
-                {role.name}: {role.displayName}{" "}
+                {role.name}: <PeopleLink {...role} />{" "}
                 {role.uncredited && "(Uncredited)"}
               </li>
             ))}
