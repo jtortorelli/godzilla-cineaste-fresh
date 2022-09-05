@@ -80,6 +80,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           <ul>
             {filmRoles.map((role) => (
               <li>
+                <img src={role.avatarUrl}/>
                 {role.name}: <PeopleLink {...role} />{" "}
                 {role.uncredited && "(Uncredited)"}
               </li>

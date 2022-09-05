@@ -39,6 +39,7 @@ export interface FilmRole {
   name: string;
   filmSlug: string;
   uncredited: boolean;
+  avatarUrl: string;
   slug: string;
   showcased: boolean;
   displayName: string;
