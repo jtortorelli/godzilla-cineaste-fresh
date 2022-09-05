@@ -1,3 +1,8 @@
+export interface PosterUrl {
+  url: string;
+  primary: boolean;
+}
+
 export interface Film {
   releaseDate: Date;
   showcased: boolean;
@@ -5,6 +10,7 @@ export interface Film {
   slug: string;
   tenant: number;
   title: string;
+  posterUrls: PosterUrl[];
 }
 
 export interface FilmStaffCredit {

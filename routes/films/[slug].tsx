@@ -24,7 +24,7 @@ export const handler: Handlers<FilmPage> = {
     ] = await Promise.all([
       sc
         .from<Film>("Film")
-        .select("releaseDate,slug,title")
+        .select("posterUrls,releaseDate,slug,title")
         .eq("slug", slug),
       sc
         .from<FilmStaff>("FilmStaff")
@@ -57,6 +57,9 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         </title>
       </Head>
       <div>This is the page for Film with slug: {film.slug}</div>
+      <div>
+        <img height="400" width="270" src={film.posterUrls.find((p) => p.primary)?.url} />
+      </div>
       {filmStaff.length > 0 &&
         (
           <div>
