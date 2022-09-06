@@ -1,4 +1,5 @@
 /** @jsx h */
+/** @jsxFrag Fragment */
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Fragment, h } from "preact";
@@ -23,11 +24,11 @@ export const handler: Handlers<PeoplePage> = {
 export default function PeoplePage({ data }: PageProps<PeoplePage>) {
   const { person } = data;
   return (
-    <Fragment>
+    <>
       <Head>
         <title>{person.displayName} | The Godzilla Cineaste</title>
       </Head>
       <div>This is the page for People with slug: {person.slug}</div>
-    </Fragment>
+    </>
   );
 }

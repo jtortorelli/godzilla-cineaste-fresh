@@ -1,4 +1,5 @@
 /** @jsx h */
+/** @jsxFrag Fragment */
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Fragment, h } from "preact";
@@ -24,7 +25,7 @@ export const handler: Handlers<PeopleIndex> = {
 export default function PeopleIndex({ data }: PageProps<PeopleIndex>) {
   const { people } = data;
   return (
-    <Fragment>
+    <>
       <Head>
         <title>People | The Godzilla Cineaste</title>
       </Head>
@@ -38,6 +39,6 @@ export default function PeopleIndex({ data }: PageProps<PeopleIndex>) {
           ))}
         </ul>
       </div>
-    </Fragment>
+    </>
   );
 }

@@ -1,16 +1,16 @@
 /** @jsx h */
+/** @jsxFrag Fragment */
 import { Head } from "$fresh/runtime.ts";
-import { tw } from "@twind";
 import { Fragment, h } from "preact";
 
 export default function Home() {
   return (
-    <Fragment>
+    <>
       <Head>
         <title>The Godzilla Cineaste</title>
       </Head>
-      <div class={tw`p-4 mx-auto max-w-screen-md`}>
-        <p class={tw`my-6`}>
+      <div class="p-4 mx-auto max-w-screen-md">
+        <p class="my-6">
           Welcome to The Godzilla Cineaste.
         </p>
         <p>
@@ -20,6 +20,6 @@ export default function Home() {
           <a href="/people">People</a>
         </p>
       </div>
-    </Fragment>
+    </>
   );
 }

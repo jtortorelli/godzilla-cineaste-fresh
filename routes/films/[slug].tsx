@@ -1,7 +1,8 @@
 /** @jsx h */
+/** @jsxFrag Fragment */
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { Fragment, h, PreactConsumer, VNode } from "preact";
+import { Fragment, h } from "preact";
 import { supabaseClient } from "../../communication/database.ts";
 import { Film, FilmRole, FilmStaff } from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
@@ -49,7 +50,7 @@ export const handler: Handlers<FilmPage> = {
 export default function FilmPage({ data }: PageProps<FilmPage>) {
   const { film, filmStaff, filmRoles } = data;
   return (
-    <Fragment>
+    <>
       <Head>
         <title>
           {film.title}{" "}
@@ -58,7 +59,11 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
       </Head>
       <div>This is the page for Film with slug: {film.slug}</div>
       <div>
-        <img height="400" width="270" src={film.posterUrls.find((p) => p.primary)?.url} />
+        <img
+          height="400"
+          width="270"
+          src={film.posterUrls.find((p) => p.primary)?.url}
+        />
       </div>
       {filmStaff.length > 0 &&
         (
@@ -80,7 +85,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           <ul>
             {filmRoles.map((role) => (
               <li>
-                <img src={role.avatarUrl}/>
+                <img src={role.avatarUrl} />
                 {role.name}: <PeopleLink {...role} />{" "}
                 {role.uncredited && "(Uncredited)"}
               </li>
@@ -88,6 +93,6 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           </ul>
         </div>
       )}
-    </Fragment>
+    </>
   );
 }
