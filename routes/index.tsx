@@ -1,7 +1,4 @@
-/** @jsx h */
-/** @jsxFrag Fragment */
 import { Head } from "$fresh/runtime.ts";
-import { Fragment, h } from "preact";
 
 export default function Home() {
   return (
