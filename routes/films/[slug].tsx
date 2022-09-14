@@ -25,7 +25,7 @@ export const handler: Handlers<FilmPage> = {
     ] = await Promise.all([
       sc
         .from<Film>("Film")
-        .select("posterUrls,releaseDate,slug,title")
+        .select("posterUrls,releaseDate,runtime,slug,title")
         .eq("slug", slug),
       sc
         .from<FilmStaff>("FilmStaff")
@@ -65,6 +65,9 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
       <div>This is the page for Film with slug: {film.slug}</div>
       <div>
         Release Date: {formatInTimeZone(film.releaseDate, "UTC", "d MMM yyyy")}
+      </div>
+      <div>
+        Runtime: {film.runtime}m
       </div>
       <div>
         <img

@@ -11,6 +11,7 @@ export interface Film {
   tenant: number;
   title: string;
   posterUrls: PosterUrl[];
+  runtime: number;
 }
 
 export interface FilmStaffCredit {
