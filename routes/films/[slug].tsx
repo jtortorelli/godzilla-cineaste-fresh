@@ -4,6 +4,7 @@ import { supabaseClient } from "../../communication/database.ts";
 import { Film, FilmRole, FilmStaff } from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
 import parseMarkdown from "../../utils/markdown_parse.ts";
+import { formatInTimeZone } from "date-fns-tz";
 
 interface FilmPage {
   film: Film;
@@ -62,6 +63,9 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         </title>
       </Head>
       <div>This is the page for Film with slug: {film.slug}</div>
+      <div>
+        Release Date: {formatInTimeZone(film.releaseDate, "UTC", "d MMM yyyy")}
+      </div>
       <div>
         <img
           height="400"
