@@ -1,13 +1,13 @@
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { formatInTimeZone } from "date-fns-tz";
 import { supabaseClient } from "../../communication/database.ts";
-import { Film, FilmRole, FilmStaff } from "../../communication/types.ts";
+import { FilmRole, FilmStaff, FilmView } from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
 import parseMarkdown from "../../utils/markdown_parse.ts";
-import { formatInTimeZone } from "date-fns-tz";
 
 interface FilmPage {
-  film: Film;
+  film: FilmView;
   filmStaff: FilmStaff[];
   filmRoles: FilmRole[];
   synopsis: string;
@@ -24,8 +24,8 @@ export const handler: Handlers<FilmPage> = {
       { data: filmRoleData },
     ] = await Promise.all([
       sc
-        .from<Film>("Film")
-        .select("posterUrls,releaseDate,runtime,slug,title")
+        .from<FilmView>("FilmView")
+        .select("posterUrls,releaseDate,runtime,slug,studios,title")
         .eq("slug", slug),
       sc
         .from<FilmStaff>("FilmStaff")
@@ -68,6 +68,9 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
       </div>
       <div>
         Runtime: {film.runtime}m
+      </div>
+      <div>
+        Produced by: {film.studios.map((studio) => studio)}
       </div>
       <div>
         <img

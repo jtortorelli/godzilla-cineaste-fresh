@@ -45,3 +45,12 @@ export interface FilmRole {
   showcased: boolean;
   displayName: string;
 }
+
+export interface FilmView {
+  slug: string;
+  title: string;
+  releaseDate: Date;
+  runtime: number;
+  posterUrls: PosterUrl[];
+  studios: string[];
+}
