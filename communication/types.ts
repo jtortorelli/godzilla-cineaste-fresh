@@ -3,6 +3,11 @@ export interface PosterUrl {
   primary: boolean;
 }
 
+export interface FilmAlias {
+  title: string;
+  context: string;
+}
+
 export interface Film {
   releaseDate: Date;
   showcased: boolean;
@@ -53,4 +58,5 @@ export interface FilmView {
   runtime: number;
   posterUrls: PosterUrl[];
   studios: string[];
+  aliases: FilmAlias[];
 }
