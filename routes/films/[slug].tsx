@@ -3,11 +3,13 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { supabaseClient } from "../../communication/database.ts";
 import { Film, FilmRole, FilmStaff } from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
+import parseMarkdown from "../../utils/markdown_parse.ts";
 
 interface FilmPage {
   film: Film;
   filmStaff: FilmStaff[];
   filmRoles: FilmRole[];
+  synopsis: string;
 }
 
 export const handler: Handlers<FilmPage> = {
@@ -36,16 +38,21 @@ export const handler: Handlers<FilmPage> = {
 
     const film = (filmData ?? [])[0];
 
+    const { renderedBody } = await parseMarkdown(
+      `static/content/synopses/${slug}.md`,
+    );
+
     return ctx.render({
       film: { ...film, releaseDate: new Date(film.releaseDate) },
       filmStaff: filmStaffData ?? [],
       filmRoles: filmRoleData ?? [],
+      synopsis: renderedBody,
     });
   },
 };
 
 export default function FilmPage({ data }: PageProps<FilmPage>) {
-  const { film, filmStaff, filmRoles } = data;
+  const { film, filmStaff, filmRoles, synopsis } = data;
   return (
     <>
       <Head>
@@ -61,6 +68,8 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           width="270"
           src={film.posterUrls.find((p) => p.primary)?.url}
         />
+      </div>
+      <div class="prose" dangerouslySetInnerHTML={{ __html: synopsis }}>
       </div>
       {filmStaff.length > 0 &&
         (
