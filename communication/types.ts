@@ -8,6 +8,12 @@ export interface FilmAlias {
   context: string;
 }
 
+export interface OriginalTitle {
+  original: string;
+  transliteration: string;
+  translation: string;
+}
+
 export interface Film {
   releaseDate: Date;
   showcased: boolean;
@@ -59,4 +65,5 @@ export interface FilmView {
   posterUrls: PosterUrl[];
   studios: string[];
   aliases: FilmAlias[];
+  originalTitle: OriginalTitle;
 }

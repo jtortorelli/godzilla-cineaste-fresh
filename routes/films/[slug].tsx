@@ -25,7 +25,9 @@ export const handler: Handlers<FilmPage> = {
     ] = await Promise.all([
       sc
         .from<FilmView>("FilmView")
-        .select("aliases,posterUrls,releaseDate,runtime,slug,studios,title")
+        .select(
+          "aliases,originalTitle,posterUrls,releaseDate,runtime,slug,studios,title",
+        )
         .eq("slug", slug),
       sc
         .from<FilmStaff>("FilmStaff")
@@ -76,6 +78,11 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         Aliases:{" "}
         {film.aliases.map((alias) => <div>{alias.title} ({alias.context})
         </div>)}
+      </div>
+      <div>
+        Original Title:{" "}
+        {film.originalTitle.original}/{film.originalTitle.transliteration}/{film
+          .originalTitle.translation}
       </div>
       <div>
         <img
