@@ -2,7 +2,12 @@ import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { formatInTimeZone } from "date-fns-tz";
 import { supabaseClient } from "../../communication/database.ts";
-import { FilmRole, FilmStaff, FilmView } from "../../communication/types.ts";
+import {
+  FilmKaijuRole,
+  FilmRole,
+  FilmStaff,
+  FilmView,
+} from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
 import parseMarkdown from "../../utils/markdown_parse.ts";
 
@@ -10,6 +15,7 @@ interface FilmPage {
   film: FilmView;
   filmStaff: FilmStaff[];
   filmRoles: FilmRole[];
+  filmKaijuRoles: FilmKaijuRole[];
   synopsis: string;
 }
 
@@ -22,11 +28,12 @@ export const handler: Handlers<FilmPage> = {
       { data: filmData },
       { data: filmStaffData },
       { data: filmRoleData },
+      { data: filmKaijuRoleData },
     ] = await Promise.all([
       sc
         .from<FilmView>("FilmView")
         .select(
-          "aliases,originalTitle,posterUrls,releaseDate,runtime,seriesInfo,slug,studios,title",
+          "aliases,originalTitle,originalWork,posterUrls,releaseDate,runtime,seriesInfo,slug,studios,title",
         )
         .eq("slug", slug),
       sc
@@ -35,6 +42,10 @@ export const handler: Handlers<FilmPage> = {
         .eq("filmSlug", slug),
       sc
         .from<FilmRole>("FilmRole")
+        .select("*")
+        .eq("filmSlug", slug),
+      sc
+        .from<FilmKaijuRole>("FilmKaijuRole")
         .select("*")
         .eq("filmSlug", slug),
     ]);
@@ -49,13 +60,14 @@ export const handler: Handlers<FilmPage> = {
       film: { ...film, releaseDate: new Date(film.releaseDate) },
       filmStaff: filmStaffData ?? [],
       filmRoles: filmRoleData ?? [],
+      filmKaijuRoles: filmKaijuRoleData ?? [],
       synopsis: renderedBody,
     });
   },
 };
 
 export default function FilmPage({ data }: PageProps<FilmPage>) {
-  const { film, filmStaff, filmRoles, synopsis } = data;
+  const { film, filmStaff, filmRoles, filmKaijuRoles, synopsis } = data;
   return (
     <>
       <Head>
@@ -84,6 +96,15 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           Original Title: {film.originalTitle.original}/{film.originalTitle
             .transliteration}/{film
             .originalTitle.translation}
+        </div>
+      )}
+      {film.originalWork && (
+        <div>
+          Based on the {film.originalWork.format.toLowerCase()}{" "}
+          {film.originalWork.title} by{" "}
+          {film.originalWork.authors.map((author) => (
+            <PeopleLink {...author} />
+          ))}
         </div>
       )}
       {film.seriesInfo && (
@@ -148,6 +169,25 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
                 <img src={role.avatarUrl} />
                 {role.name}: <PeopleLink {...role} />{" "}
                 {role.uncredited && "(Uncredited)"}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {filmKaijuRoles.length > 0 && (
+        <div>
+          <p>Kaiju</p>
+          <ul>
+            {filmKaijuRoles.map((role) => (
+              <li>
+                <img src={role.avatarUrl} />
+                {role.kaijuDisplayName}
+                {role.credits.map((credit) => (
+                  <>
+                    <PeopleLink {...credit} /> {credit.qualifiers.join()}
+                    {credit.uncredited && "(Uncredited)"}
+                  </>
+                ))}
               </li>
             ))}
           </ul>
