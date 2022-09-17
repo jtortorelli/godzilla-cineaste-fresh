@@ -26,7 +26,7 @@ export const handler: Handlers<FilmPage> = {
       sc
         .from<FilmView>("FilmView")
         .select(
-          "aliases,originalTitle,posterUrls,releaseDate,runtime,slug,studios,title",
+          "aliases,originalTitle,posterUrls,releaseDate,runtime,seriesInfo,slug,studios,title",
         )
         .eq("slug", slug),
       sc
@@ -79,11 +79,43 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         {film.aliases.map((alias) => <div>{alias.title} ({alias.context})
         </div>)}
       </div>
-      <div>
-        Original Title:{" "}
-        {film.originalTitle.original}/{film.originalTitle.transliteration}/{film
-          .originalTitle.translation}
-      </div>
+      {film.originalTitle && (
+        <div>
+          Original Title: {film.originalTitle.original}/{film.originalTitle
+            .transliteration}/{film
+            .originalTitle.translation}
+        </div>
+      )}
+      {film.seriesInfo && (
+        <>
+          <div>
+            Series name: {film.seriesInfo.seriesName}
+          </div>
+          <div>
+            Series entry no: {film.seriesInfo.entryNumber}
+          </div>
+          {film.seriesInfo.followedBy && (
+            <div>
+              Followed by:{" "}
+              <a href={`/films/${film.seriesInfo.followedBy.slug}`}>
+                {film.seriesInfo.followedBy.title}{" "}
+                ({new Date(film.seriesInfo.followedBy.releaseDate)
+                  .getFullYear()})
+              </a>
+            </div>
+          )}
+          {film.seriesInfo.precededBy && (
+            <div>
+              Preceded by:{" "}
+              <a href={`/films/${film.seriesInfo.precededBy.slug}`}>
+                {film.seriesInfo.precededBy.title}{" "}
+                ({new Date(film.seriesInfo.precededBy.releaseDate)
+                  .getFullYear()})
+              </a>
+            </div>
+          )}
+        </>
+      )}
       <div>
         <img
           height="400"

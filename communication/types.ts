@@ -57,6 +57,19 @@ export interface FilmRole {
   displayName: string;
 }
 
+export interface FilmSeriesEntryInfo {
+  slug: string;
+  title: string;
+  releaseDate: Date;
+}
+
+export interface FilmSeriesInfo {
+  seriesName: string;
+  entryNumber: number;
+  precededBy: FilmSeriesEntryInfo;
+  followedBy: FilmSeriesEntryInfo;
+}
+
 export interface FilmView {
   slug: string;
   title: string;
@@ -66,4 +79,5 @@ export interface FilmView {
   studios: string[];
   aliases: FilmAlias[];
   originalTitle: OriginalTitle;
+  seriesInfo: FilmSeriesInfo;
 }
