@@ -9,6 +9,7 @@ import {
   FilmView,
 } from "../../communication/types.ts";
 import { PeopleLink } from "../../components/PeopleLink.tsx";
+import parseCSV from "../../utils/csv_parse.ts";
 import parseMarkdown from "../../utils/markdown_parse.ts";
 
 interface FilmPage {
@@ -17,6 +18,7 @@ interface FilmPage {
   filmRoles: FilmRole[];
   filmKaijuRoles: FilmKaijuRole[];
   synopsis: string;
+  credits?: Record<string, string>[];
 }
 
 export const handler: Handlers<FilmPage> = {
@@ -53,7 +55,11 @@ export const handler: Handlers<FilmPage> = {
     const film = (filmData ?? [])[0];
 
     const { renderedBody } = await parseMarkdown(
-      `static/content/synopses/${slug}.md`,
+      `static/content/films/${slug}/synopsis.md`,
+    );
+
+    const renderedCredits = await parseCSV(
+      `static/content/films/${slug}/credits.csv`,
     );
 
     return ctx.render({
@@ -62,12 +68,14 @@ export const handler: Handlers<FilmPage> = {
       filmRoles: filmRoleData ?? [],
       filmKaijuRoles: filmKaijuRoleData ?? [],
       synopsis: renderedBody,
+      credits: renderedCredits,
     });
   },
 };
 
 export default function FilmPage({ data }: PageProps<FilmPage>) {
-  const { film, filmStaff, filmRoles, filmKaijuRoles, synopsis } = data;
+  const { film, filmStaff, filmRoles, filmKaijuRoles, synopsis, credits } =
+    data;
   return (
     <>
       <Head>
@@ -188,6 +196,19 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
                     {credit.uncredited && "(Uncredited)"}
                   </>
                 ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {credits && (
+        <div>
+          <ul>
+            {credits.map((credit) => (
+              <li>
+                {credit["Japanese Role"]},{credit["Japanese Name"]},{credit[
+                  "Role"
+                ]},{credit["Name"]}
               </li>
             ))}
           </ul>
