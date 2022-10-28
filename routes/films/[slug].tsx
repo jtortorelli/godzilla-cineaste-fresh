@@ -1,6 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { formatInTimeZone } from "date-fns-tz";
+import { CSS } from "gfm";
 import { supabaseClient } from "../../communication/database.ts";
 import {
   FilmKaijuRole,
@@ -83,6 +84,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           {film.title}{" "}
           ({film.releaseDate.getFullYear()}) | The Godzilla Cineaste
         </title>
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
       <div>This is the page for Film with slug: {film.slug}</div>
       <div>
@@ -152,7 +154,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
           src={film.posterUrls.find((p) => p.primary)?.url}
         />
       </div>
-      <div class="prose" dangerouslySetInnerHTML={{ __html: synopsis }}>
+      <div class="markdown-body" dangerouslySetInnerHTML={{ __html: synopsis }}>
       </div>
       {filmStaff.length > 0 &&
         (
