@@ -12,7 +12,7 @@ invisible men exist or their current whereabouts. Paranoia sweeps the nation.
 Yajima, a gangster, capitalizes on the hysteria. He has his thugs dress as
 "invisible men" when carrying out their heists.
 
-Nanjo, a surviving invisible soldier, works as a chidon'ya for Yajima's
+Nanjo, a surviving invisible soldier, works as a _chidon'ya_ for Yajima's
 nightclub. He is fond of a blind girl in his lodging, Mari. Mari's grandfather,
 a dock worker, accepts a bribe from Yajima to make ends meet for Mari's sake.
 Yajima's men raid the docks for valuables, and kill Mari's grandfather. Nanjo
