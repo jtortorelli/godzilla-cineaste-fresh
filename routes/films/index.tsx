@@ -27,7 +27,7 @@ export default function FilmsIndex({ data }: PageProps<FilmsIndex>) {
         <title>Films | The Godzilla Cineaste</title>
       </Head>
       <div>
-        <p>This is the films page</p>
+        <p>This is the super awesome films page</p>
         <ul>
           {films.map((f) => (
             <li>
