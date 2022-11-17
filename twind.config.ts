@@ -14,7 +14,7 @@ export default {
       {
         fontFamily: "Editorial New",
         fontWeight: "800",
-        src: 'url(/static/fonts/PPEditorialNew-Ultrabold.otf) format("otf")',
+        src: "url(/fonts/PPEditorialNew-Ultrabold.otf)",
       },
     ],
   },
