@@ -86,7 +86,7 @@ export default function FilmPage({ data }: PageProps<FilmPage>) {
         </title>
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
-      <h1 class="text-2xl font-extrabold tracking-wider uppercase">
+      <h1 class="font-serif text-3xl font-extrabold">
         {film.title}
       </h1>
       <div>This is the page for Film with slug: {film.slug}</div>
